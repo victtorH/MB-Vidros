@@ -260,5 +260,47 @@ document.addEventListener("DOMContentLoaded", function () {
         closeBtn.addEventListener('click', closeModal);
         backdrop.addEventListener('click', closeModal);
     }
+
+    // =========================================================
+    // AÇÃO DE CONTATO RÁPIDO DO HERO (WHATSAPP VIA LINK)
+    // =========================================================
+    const heroSubmitBtn = document.querySelector('.hero__form-box .hero__submit');
+    const heroInput = document.querySelector('.hero__form-box .hero__input');
+
+    if (heroSubmitBtn && heroInput) {
+        heroSubmitBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // Impede o link vazio de atualizar a página
+
+            const nomeCompleto = heroInput.value.trim();
+
+            // Heurística 5 (Prevenção de Erros): Se o usuário não digitou nada, foca no input
+            if (!nomeCompleto) {
+                heroInput.focus();
+                heroInput.style.borderColor = "var(--color-outline-variant)"; // Feedback visual sutil
+                return;
+            }
+
+            // Extrai apenas o primeiro nome para uma saudação mais calorosa e informal
+            const primeiroNome = nomeCompleto.split(/\s+/)[0];
+
+            // Mensagem curta, amigável e direta
+            const textoMensagem = `Olá! Me chamo ${primeiroNome} e vi o site da MB Vidros. Gostaria de entender mais de como funcionan!`;
+
+            // Configuração do seu número (Mantendo o padrão dos seus códigos anteriores)
+            const numeroDestino = "5511972108611"; 
+            const textoCodificado = encodeURIComponent(textoMensagem);
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroDestino}&text=${textoCodificado}`;
+
+            // Abre o WhatsApp em uma nova aba sem perder o usuário do seu site
+            window.open(urlWhatsApp, '_blank');
+        });
+        
+        // Permite que o usuário também aperte "Enter" dentro do input para disparar o clique
+        heroInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                heroSubmitBtn.click();
+            }
+        });
+    }
     
 });
