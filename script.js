@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault(); // Impede o pulo seco do navegador
             
             const targetId = this.getAttribute('href');
+
+            if (targetId === '#' || !targetId) return;
+
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
