@@ -21,6 +21,44 @@ document.addEventListener("DOMContentLoaded", function () {
     requestAnimationFrame(raf);
 
 
+const secoes = document.querySelectorAll("main section[id]");
+    const itensMenu = document.querySelectorAll(".header-nav__menu .header-nav__item");
+
+    // 2. Configuração do "sensor" de região da tela (Margem de detecção)
+    const opcoesObservador = {
+        root: null,
+        // Detecta a seção quando ela ocupa a área central da tela (evita quebras no meio do scroll)
+        rootMargin: "-30% 0px -60% 0px",
+        threshold: 0
+    };
+
+    // 3. Lógica que gerencia as classes ativas
+    const observador = new IntersectionObserver((entradas) => {
+        entradas.forEach(entrada => {
+            // Se a seção entrou na área de foco configurada
+            if (entrada.isIntersecting) {
+                const idSecaoAtiva = entrada.target.getAttribute("id");
+                
+                // Percorre os itens do menu para ligar/desligar a classe active
+                itensMenu.forEach(item => {
+                    const link = item.querySelector("a");
+                    
+                    if (link && link.getAttribute("href") === `#${idSecaoAtiva}`) {
+                        item.classList.add("header-nav__item--active");
+                    } else {
+                        item.classList.remove("header-nav__item--active");
+                    }
+                });
+            }
+        });
+    }, opcoesObservador);
+
+    // 4. Ativa o observador em cada uma das seções da página
+    secoes.forEach(secao => {
+        observador.observe(secao);
+    });
+
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault(); // Impede o pulo seco do navegador
