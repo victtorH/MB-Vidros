@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const primeiroNome = nomeCompleto.split(/\s+/)[0];
 
             // Mensagem curta, amigável e direta
-            const textoMensagem = `Olá! Me chamo ${primeiroNome} e vi o site da MB Vidros. Gostaria de entender mais de como funcionan!`;
+            const textoMensagem = `Olá! Me chamo ${primeiroNome} e vi o site da MB Vidros. Gostaria de entender mais de como funcionam!`;
 
             // Configuração do seu número (Mantendo o padrão dos seus códigos anteriores)
             const numeroDestino = "5511972108611"; 
