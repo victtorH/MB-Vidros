@@ -220,20 +220,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // =========================================================
-    // GERENCIAMENTO ANIMADO DO MODAL (GSAP PREMIUM)
+ // =========================================================
+    // GERENCIAMENTO ANIMADO DO MODAL (VERSÃO CORRIGIDA)
     // =========================================================
     function openThanksModal() {
         const modalContent = modal.querySelector('.thanks-modal__content');
         const closeBtn = modal.querySelector('.thanks-modal__close-btn');
         const backdrop = modal.querySelector('.thanks-modal__backdrop');
 
-        // Reseta os estados visuais antes de animar
+        // 1. Reseta os estados visuais dos filhos antes de animar
         gsap.set(backdrop, { opacity: 0 });
         gsap.set(modalContent, { scale: 0.8, opacity: 0 });
         
-        // Torna o modal visível e clicável
-        gsap.set(modal, { visibility: 'visible', pointerEvents: 'auto' });
+        // 2. CORREÇÃO: Força a opacidade em "1" no container pai junto com a visibilidade
+        gsap.set(modal, { visibility: 'visible', pointerEvents: 'auto', opacity: 1 });
 
         // Timeline de Entrada (Efeito pop elástico fluido)
         const modalTl = gsap.timeline();
@@ -244,7 +244,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const closeModal = () => {
             gsap.timeline({
                 onComplete: () => {
-                    gsap.set(modal, { visibility: 'hidden', pointerEvents: 'none' });
+                    // Retorna o container pai para o estado invisível padrão do CSS
+                    gsap.set(modal, { visibility: 'hidden', pointerEvents: 'none', opacity: 0 });
                 }
             })
             .to(modalContent, { scale: 0.9, opacity: 0, duration: 0.3, ease: "power2.in" })
